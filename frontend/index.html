@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 운세와 식사 추천</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔮 오늘의 운세와 식사 추천</h1>
+            <p>당신의 운세에 맞는 완벽한 식사를 찾아보세요!</p>
+        </header>
+
+        <main>
+            <!-- 모드 선택 섹션 -->
+            <section id="mode-selection" class="section">
+                <h2>모드를 선택해주세요</h2>
+                <div class="mode-buttons" role="group" aria-label="운세 모드 선택">
+                    <button id="individual-mode-btn" class="mode-btn" type="button" aria-describedby="individual-desc">
+                        <span class="icon" aria-hidden="true">👤</span>
+                        <span class="text">개인 운세</span>
+                        <span class="description" id="individual-desc">나만의 운세와 식사 추천</span>
+                    </button>
+                    <button id="group-mode-btn" class="mode-btn" type="button" aria-describedby="group-desc">
+                        <span class="icon" aria-hidden="true">👥</span>
+                        <span class="text">그룹 운세</span>
+                        <span class="description" id="group-desc">모임에 최적화된 추천</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 입력 섹션 -->
+            <section id="input-section" class="section hidden">
+                <h2 id="input-title">생년월일을 입력해주세요</h2>
+                
+                <!-- 개인 모드 입력 -->
+                <div id="individual-input" class="input-container hidden">
+                    <div class="input-group">
+                        <label for="birth-date">생년월일</label>
+                        <input type="date" 
+                               id="birth-date" 
+                               required
+                               aria-describedby="birth-date-help"
+                               max=""
+                               min="1900-01-01">
+                        <small id="birth-date-help" class="input-help">생년월일을 선택해주세요 (1900년 이후)</small>
+                    </div>
+                </div>
+
+                <!-- 그룹 모드 입력 -->
+                <div id="group-input" class="input-container hidden">
+                    <div class="input-group">
+                        <label for="participant-count">참석자 수</label>
+                        <select id="participant-count" aria-describedby="participant-count-help">
+                            <option value="2">2명</option>
+                            <option value="3">3명</option>
+                            <option value="4">4명</option>
+                            <option value="5">5명</option>
+                            <option value="6">6명</option>
+                            <option value="7">7명</option>
+                            <option value="8">8명</option>
+                            <option value="9">9명</option>
+                            <option value="10">10명</option>
+                        </select>
+                        <small id="participant-count-help" class="input-help">모임 참석자 수를 선택해주세요 (최대 10명)</small>
+                    </div>
+                    <div id="participants-list" class="participants-container" role="group" aria-label="참석자 생년월일 입력">
+                        <!-- 동적으로 생성될 참석자 입력 필드들 -->
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="back-btn" class="btn secondary" type="button" aria-label="모드 선택으로 돌아가기">
+                        뒤로가기
+                    </button>
+                    <button id="generate-fortune-btn" class="btn primary" type="button" aria-label="입력한 정보로 운세 생성하기">
+                        운세 보기
+                    </button>
+                </div>
+            </section>
+
+            <!-- 결과 섹션 -->
+            <section id="results-section" class="section hidden" role="main" aria-label="운세 및 메뉴 추천 결과">
+                <div id="fortune-results" class="results-container" role="region" aria-label="운세 결과">
+                    <!-- 운세 결과가 여기에 표시됩니다 -->
+                </div>
+                
+                <div id="menu-results" class="results-container" role="region" aria-label="메뉴 추천 결과">
+                    <!-- 메뉴 추천 결과가 여기에 표시됩니다 -->
+                </div>
+
+                <div class="button-group">
+                    <button id="share-btn" class="btn secondary" type="button" aria-label="결과를 이미지로 공유하기">
+                        이미지로 공유
+                    </button>
+                    <button id="new-fortune-btn" class="btn primary" type="button" aria-label="새로운 운세 시작하기">
+                        새로운 운세
+                    </button>
+                </div>
+            </section>
+
+            <!-- 로딩 섹션 -->
+            <section id="loading-section" class="section hidden">
+                <div class="loading-container">
+                    <div class="spinner"></div>
+                    <p>운세를 생성하고 있습니다...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Fortune Dinner Recommender. 재미로 즐기는 운세 서비스입니다.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
