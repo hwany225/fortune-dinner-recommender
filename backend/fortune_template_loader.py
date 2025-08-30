@@ -20,9 +20,30 @@ class FortuneTemplateLoader:
             template_path: 템플릿 파일 경로 (기본값: data/fortune_templates.json)
         """
         if template_path is None:
-            # 현재 파일의 디렉토리를 기준으로 절대 경로 생성
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            template_path = os.path.join(current_dir, 'data', 'fortune_templates.json')
+            # 여러 경로를 시도해서 파일을 찾습니다
+            possible_paths = [
+                # 현재 파일 기준 상대 경로
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'fortune_templates.json'),
+                # 프로젝트 루트 기준 경로
+                os.path.join(os.getcwd(), 'backend', 'data', 'fortune_templates.json'),
+                # Render 배포 환경 경로
+                os.path.join('/opt/render/project/src', 'backend', 'data', 'fortune_templates.json'),
+                # 작업 디렉토리 기준 경로
+                os.path.join(os.getcwd(), 'data', 'fortune_templates.json'),
+                # 상대 경로
+                'data/fortune_templates.json',
+                'backend/data/fortune_templates.json'
+            ]
+            
+            template_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    template_path = path
+                    break
+            
+            if template_path is None:
+                # 모든 경로를 시도했지만 파일을 찾지 못한 경우
+                raise FileNotFoundError(f"운세 템플릿 파일을 찾을 수 없습니다. 시도한 경로들: {possible_paths}")
         
         self.template_path = template_path
         self.templates = self._load_templates()

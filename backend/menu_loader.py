@@ -27,9 +27,29 @@ class MenuLoader:
     def _load_menus(self) -> None:
         """JSON 파일에서 메뉴 데이터를 로드"""
         try:
-            # 현재 파일의 디렉토리를 기준으로 상대 경로 계산
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            file_path = os.path.join(current_dir, self.data_file_path)
+            # 여러 경로를 시도해서 파일을 찾습니다
+            possible_paths = [
+                # 현재 파일 기준 상대 경로
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), self.data_file_path),
+                # 프로젝트 루트 기준 경로
+                os.path.join(os.getcwd(), 'backend', self.data_file_path),
+                # Render 배포 환경 경로
+                os.path.join('/opt/render/project/src', 'backend', self.data_file_path),
+                # 작업 디렉토리 기준 경로
+                os.path.join(os.getcwd(), self.data_file_path),
+                # 상대 경로
+                self.data_file_path,
+                f'backend/{self.data_file_path}'
+            ]
+            
+            file_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    file_path = path
+                    break
+            
+            if file_path is None:
+                raise FileNotFoundError(f"메뉴 데이터 파일을 찾을 수 없습니다. 시도한 경로들: {possible_paths}")
             
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
