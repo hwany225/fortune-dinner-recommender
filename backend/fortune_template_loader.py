@@ -20,7 +20,9 @@ class FortuneTemplateLoader:
             template_path: 템플릿 파일 경로 (기본값: data/fortune_templates.json)
         """
         if template_path is None:
-            template_path = os.path.join(os.path.dirname(__file__), 'data', 'fortune_templates.json')
+            # 현재 파일의 디렉토리를 기준으로 절대 경로 생성
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            template_path = os.path.join(current_dir, 'data', 'fortune_templates.json')
         
         self.template_path = template_path
         self.templates = self._load_templates()
@@ -28,6 +30,11 @@ class FortuneTemplateLoader:
     def _load_templates(self) -> Dict:
         """템플릿 파일을 로드합니다."""
         try:
+            # 디버깅을 위한 경로 정보 출력
+            print(f"템플릿 파일 경로: {self.template_path}")
+            print(f"파일 존재 여부: {os.path.exists(self.template_path)}")
+            print(f"현재 작업 디렉토리: {os.getcwd()}")
+            
             with open(self.template_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except FileNotFoundError:

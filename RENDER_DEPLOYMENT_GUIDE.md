@@ -61,7 +61,7 @@
    Region: Oregon (US West) 또는 가까운 지역
    Branch: main
    Runtime: Python 3
-   Build Command: pip install -r requirements.txt
+   Build Command: cd backend && pip install -r requirements.txt
    Start Command: cd backend && gunicorn --bind 0.0.0.0:$PORT app:app
    ```
 
